@@ -60,6 +60,11 @@ app.get('/auth/github/callback', async (req, res) => {
     }
 });
 
+app.get('/auth/github/result', (req, res) => {
+  res.send(req.cookie('accessToken'))
+  //send the request that was made with the cookie
+})
+
 
 // Endpoint for the successful authentication page
 app.get('/auth/success', (req, res) => {
