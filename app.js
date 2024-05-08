@@ -22,7 +22,7 @@ app.listen(port, () => {
 app.get('/auth/github', (req, res) => {
     console.log('auth_github passsed')
     const clientId = process.env.GITHUB_CLIENT_ID;
-    const redirectUri = 'http://localhost:3000/auth/github/callback';
+    const redirectUri = 'https://alison-nlw-gh-oauth.onrender.com/auth/github/callback';
     const scope = 'gist repo'; // Adjust the scope according to your needs
     res.redirect(`https://github.com/login/oauth/authorize?client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&scope=${encodeURIComponent(scope)}`);
   });
