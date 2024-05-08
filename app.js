@@ -47,7 +47,8 @@ app.get('/auth/github/callback', async (req, res) => {
         const accessToken = response.data.access_token;
         console.log(accessToken)
         // Store the access token in an HTTP-only cookie
-        res.cookie('accessToken', accessToken, { secure: true, sameSite: 'strict' });
+        //res.cookie('accessToken', accessToken, { secure: true, sameSite: 'strict' });
+        res.cookie('accessToken', accessToken);
         // Redirect to a page that will send a postMessage to the client
         res.redirect('/auth/success'); // Create this endpoint or page
     } catch (error) {
