@@ -101,7 +101,7 @@ app.get('/auth/github/result', (req, res) => {
       return res.status(401).json({ error: 'Access token is missing' });
   }
   else{
-    res.send(accessToken);
+    res.send("Authentication successful! You may close this window. " + accessToken);
 
   }
     // Use the accessToken to interact with application logic
