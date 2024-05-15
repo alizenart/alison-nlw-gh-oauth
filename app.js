@@ -7,8 +7,13 @@ require('dotenv').config();
 const express = require('express');
 const axios = require('axios');
 const cors = require('cors');
+const cookieParser = require('cookie-parser');
+
+
+
 
 const app = express();
+app.use(cookieParser());
 const port = process.env.PORT || 3000;
 
 app.use(cors({
@@ -70,22 +75,36 @@ app.get('/auth/github/callback', async (req, res) => {
         // Store the access token in an HTTP-only cookie
         //res.cookie('accessToken', accessToken, { secure: true, sameSite: 'strict' });
         console.log("sending back cookie")
+
+        //Setting the accessToken here
         res.cookie('accessToken', accessToken, {
-          httpOnly: false, // Allows JavaScript access
-          secure: false, // For HTTPS, set this to true
-          sameSite: 'lax' // 'lax' or 'strict' depending on cross-origin needs
+          httpOnly: true, // Only accessible on client-side
+          secure: true,
+          sameSite: 'lax', 
+          maxAge: 604800000 // 7 days in milliseconds
         });
+
+
+
         console.log("after res.cookie")
         // Redirect to a page that will send a postMessage to the client
-        res.redirect('/auth/success'); // Create this endpoint or page
+        //res.redirect('/auth/success'); // Create this endpoint or page
+        res.redirect('/auth/github/result')
     } catch (error) {
         res.status(500).send('Authentication failed');
     }
 });
 
 app.get('/auth/github/result', (req, res) => {
-  res.send(req.cookie('accessToken'))
-  //send the request that was made with the cookie
+  const accessToken = req.cookies['accessToken']; // Access the accessToken cookie
+  if (!accessToken) {
+      return res.status(401).json({ error: 'Access token is missing' });
+  }
+  else{
+    res.send(accessToken);
+
+  }
+    // Use the accessToken to interact with application logic
 })
 
 
@@ -96,11 +115,10 @@ app.get('/auth/success', (req, res) => {
         <html>
             <body>
                 <script>
-                    // Send a message to the opener window with the success event
                     window.opener.postMessage({
                         type: 'authentication_complete'
-                    }, 'http://localhost:9000'); // Ensure this is the correct client origin
-                    window.close(); // Close the popup
+                    }, 'http://localhost:9000/settings');
+                    window.close();
                 </script>
                 <p>Authentication successful! You may close this window.</p>
             </body>
@@ -114,7 +132,7 @@ app.get('/api/use_access_token', (req, res) => {
     if (!accessToken) {
         return res.status(401).json({ error: 'Access token is missing' });
     }
-    // Use the accessToken to interact with the GitHub API here
+    
 });
 
 app.get('/api/proceed_with_auth', async (req, res) => {
