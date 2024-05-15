@@ -10,6 +10,11 @@ const axios = require('axios');
 const app = express();
 const port = process.env.PORT || 3000;
 
+app.use(cors({
+  origin: 'localhost:9000/',  // Adjust this to your client's URL
+  credentials: true
+}));
+
 app.get('/', (req, res) => {
   res.send('Hello World!');
 });
@@ -63,11 +68,13 @@ app.get('/auth/github/callback', async (req, res) => {
         console.log(accessToken)
         // Store the access token in an HTTP-only cookie
         //res.cookie('accessToken', accessToken, { secure: true, sameSite: 'strict' });
+        console.log("sending back cookie")
         res.cookie('accessToken', accessToken, {
           httpOnly: false, // Allows JavaScript access
           secure: false, // For HTTPS, set this to true
           sameSite: 'lax' // 'lax' or 'strict' depending on cross-origin needs
         });
+        console.log("after res.cookie")
         // Redirect to a page that will send a postMessage to the client
         res.redirect('/auth/success'); // Create this endpoint or page
     } catch (error) {
@@ -83,6 +90,7 @@ app.get('/auth/github/result', (req, res) => {
 
 // Endpoint for the successful authentication page
 app.get('/auth/success', (req, res) => {
+  console.log("in auth/success")
     const html = `
         <html>
             <body>
