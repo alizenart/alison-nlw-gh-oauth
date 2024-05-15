@@ -9,7 +9,12 @@ const axios = require('axios');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 
+app.use(cors({
+  origin: "https://alison-nlw-gh-oauth.onrender.com"
+}
+))
 
+app.options('*', cors())
 
 
 const app = express();
