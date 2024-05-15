@@ -12,11 +12,6 @@ const cookieParser = require('cookie-parser');
 
 const app = express();
 
-app.use(cors({
-  origin: "https://alison-nlw-gh-oauth.onrender.com"
-}
-))
-
 app.use((req, res, next) => {
   res.setHeader(
     "Access-Control-Allow-Origin",
@@ -44,8 +39,6 @@ app.options('/api/upload-nlogo', function (req, res) {
   res.setHeader("Access-Control-Allow-Headers", "*");
   res.end();
 });
-
-app.options('*', cors())
 
 app.use(cookieParser());
 const port = process.env.PORT || 3000;
