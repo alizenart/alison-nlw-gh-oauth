@@ -15,16 +15,19 @@ app.get('/', (req, res) => {
 });
 
 app.get('/retrieve-cookie', (req, res) => {
-  // Retrieve the accessToken from the request cookies
-  const accessToken = req.cookies['accessToken'];
+  /* Retrieve the accessToken from the request cookies
+  //const accessToken = req.cookies['accessToken'];
+  console.log(accessToken);
   
   // Check if the accessToken exists
   if (!accessToken) {
     return res.status(401).json({ error: 'Access token is missing' });
   }
+  */
 
   // Send the accessToken as the response
-  res.json({ accessToken: accessToken });
+  //res.json({ accessToken: accessToken });
+  res.json({hi});
 });
 
 app.listen(port, () => {
