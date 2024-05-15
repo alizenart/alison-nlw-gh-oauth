@@ -9,6 +9,9 @@ const axios = require('axios');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 
+
+const app = express();
+
 app.use(cors({
   origin: "https://alison-nlw-gh-oauth.onrender.com"
 }
@@ -16,8 +19,6 @@ app.use(cors({
 
 app.options('*', cors())
 
-
-const app = express();
 app.use(cookieParser());
 const port = process.env.PORT || 3000;
 
