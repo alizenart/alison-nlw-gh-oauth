@@ -16,10 +16,6 @@ const app = express();
 app.use(cookieParser());
 const port = process.env.PORT || 3000;
 
-app.use(cors({
-  origin: 'localhost:9000/',  // Adjust this to your client's URL
-  credentials: true
-}));
 
 app.get('/', (req, res) => {
   res.send('Hello World!');
