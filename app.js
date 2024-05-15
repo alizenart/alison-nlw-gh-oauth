@@ -14,6 +14,18 @@ app.get('/', (req, res) => {
   res.send('Hello World!');
 });
 
+app.get('/retrieve-cookie', (req, res) => {
+  // Retrieve the accessToken from the request cookies
+  const accessToken = req.cookies['accessToken'];
+  
+  // Check if the accessToken exists
+  if (!accessToken) {
+    return res.status(401).json({ error: 'Access token is missing' });
+  }
+
+  // Send the accessToken as the response
+  res.json({ accessToken: accessToken });
+});
 
 app.listen(port, () => {
   console.log(`Server listening at http://localhost:${port}`);
