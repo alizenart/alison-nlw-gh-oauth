@@ -193,8 +193,8 @@ app.get('/api/proceed_with_auth', async (req, res) => {
 
 app.post('/api/upload-nlogo', async (req, res) => {
     console.log("req.body" + req.body);
-    console.log("req.cookies" + req.cookies);
     const { filename, content } = req.body;
+    console.log("req.cookies" + req.cookies['accessToken']);
     const accessToken = req.cookies['accessToken']; // Assuming the access token is stored in an HttpOnly cookie
 
     if (!accessToken) {
