@@ -115,7 +115,7 @@ app.get('/auth/github/callback', async (req, res) => {
 
         //Setting the accessToken here
         res.cookie('accessToken', accessToken, {
-          httpOnly: true, // Only accessible on client-side
+          httpOnly: false, // True means only accessible on client-side
           secure: false, // Sent over https , HTTP set secure to false
           sameSite: 'lax', 
           maxAge: 604800000 // 7 days in milliseconds
@@ -137,7 +137,6 @@ app.get('/auth/github/result', (req, res) => {
   }
   else{
     res.send("Authentication successful! You may close this window. " + accessToken);
-
   }
 })
 
