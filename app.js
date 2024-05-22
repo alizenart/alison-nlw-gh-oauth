@@ -116,7 +116,7 @@ app.get('/auth/github/callback', async (req, res) => {
         //Setting the accessToken here
         res.cookie('accessToken', accessToken, {
           httpOnly: true, // Only accessible on client-side
-          secure: true,
+          secure: false,
           sameSite: 'lax', 
           maxAge: 604800000 // 7 days in milliseconds
         });
