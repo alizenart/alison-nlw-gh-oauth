@@ -52,6 +52,9 @@ app.options('/api/upload-nlogo', function (req, res) {
 
 
 app.use(cookieParser());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 const port = process.env.PORT || 3000;
 
 
@@ -189,6 +192,8 @@ app.get('/api/proceed_with_auth', async (req, res) => {
 });
 
 app.post('/api/upload-nlogo', async (req, res) => {
+    console.log("req.body" + req.body);
+    console.log("req.cookies" + req.cookies);
     const { filename, content } = req.body;
     const accessToken = req.cookies['accessToken']; // Assuming the access token is stored in an HttpOnly cookie
 
