@@ -116,7 +116,7 @@ app.get('/auth/github/callback', async (req, res) => {
         //Setting the accessToken here
         res.cookie('accessToken', accessToken, {
           httpOnly: true, // Only accessible on client-side
-          secure: true, // Sent over https , HTTP set secure to false
+          secure: false, // Sent over https , HTTP set secure to false
           sameSite: 'lax', 
           maxAge: 604800000 // 7 days in milliseconds
         });
@@ -191,7 +191,7 @@ app.get('/api/proceed_with_auth', async (req, res) => {
 app.post('/api/upload-nlogo', async (req, res) => {
     console.log("req.body" + req.body);
     const { filename, content } = req.body;
-    console.log("req.cookies" + req.cookies);
+    console.log("req.cookies: " , req.cookies);
     const accessToken = req.cookies['accessToken']; // Assuming the access token is stored in an HttpOnly cookie
 
     if (!accessToken) {
