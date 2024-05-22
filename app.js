@@ -116,7 +116,7 @@ app.get('/auth/github/callback', async (req, res) => {
         //Setting the accessToken here
         res.cookie('accessToken', accessToken, {
           httpOnly: true, // Only accessible on client-side
-          secure: false,
+          secure: true, // Sent over https , HTTP set secure to false
           sameSite: 'lax', 
           maxAge: 604800000 // 7 days in milliseconds
         });
@@ -124,8 +124,6 @@ app.get('/auth/github/callback', async (req, res) => {
 
 
         console.log("after res.cookie")
-        // Redirect to a page that will send a postMessage to the client
-        //res.redirect('/auth/success'); // Create this endpoint or page
         res.redirect('/auth/github/result')
     } catch (error) {
         res.status(500).send('Authentication failed');
@@ -141,7 +139,6 @@ app.get('/auth/github/result', (req, res) => {
     res.send("Authentication successful! You may close this window. " + accessToken);
 
   }
-    // Use the accessToken to interact with application logic
 })
 
 
@@ -194,7 +191,7 @@ app.get('/api/proceed_with_auth', async (req, res) => {
 app.post('/api/upload-nlogo', async (req, res) => {
     console.log("req.body" + req.body);
     const { filename, content } = req.body;
-    console.log("req.cookies" + req.cookies['accessToken']);
+    console.log("req.cookies" + req.cookies);
     const accessToken = req.cookies['accessToken']; // Assuming the access token is stored in an HttpOnly cookie
 
     if (!accessToken) {
