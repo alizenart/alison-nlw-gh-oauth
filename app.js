@@ -33,6 +33,15 @@ app.use((req, res, next) => {
   next();
 });
 
+
+app.use(cors({
+  origin: 'http://localhost:9000',
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  allowedHeaders: 'Content-Type, Authorization',
+  credentials: true,
+}));
+
+
 /*
 app.options('/api/upload-nlogo', function (req, res) {
   res.setHeader("Access-Control-Allow-Origin", "*");
