@@ -158,36 +158,38 @@ app.get('/api/proceed_with_auth', async (req, res) => {
 
 
 app.post('/api/upload-nlogo', async (req, res) => {
-const { filename, content } = req.body;
-const accessToken = req.headers['authorization']?.split(' ')[1]; // Retrieve the token from the Authorization header
+  const { filename, content } = req.body;
+  const accessToken = req.headers['authorization']?.split(' ')[1]; // Retrieve the token from the Authorization header
 
-if (!accessToken) {
-  return res.status(401).json({ error: 'Access token is missing or invalid' });
-}
-
-const data = {
-  description: "Uploaded from NetLogo",
-  public: true,
-  files: {
-    [filename]: { content: content }
+  if (!accessToken) {
+    return res.status(401).json({ error: 'Access token is missing or invalid' });
   }
-};
 
-try {
-  const response = await axios.post('https://api.github.com/gists', data, {
-    headers: {
-      'Authorization': `token ${accessToken}`,
-      'Content-Type': 'application/json'
+  const data = {
+    description: "Uploaded from NetLogo",
+    public: true,
+    files: {
+      [filename]: { content: content }
     }
-  });
+  };
 
-  if (response.status === 201) {
-    const gistUrl = response.data.html_url;
-    res.json({ message: "Successfully uploaded to GitHub Gist", gistUrl: gistUrl });
-  } else {
-    res.status(500).json({ error: 'Failed to upload to GitHub Gist' });
+  try {
+    const response = await axios.post('https://api.github.com/gists', data, {
+      headers: {
+        'Authorization': `token ${accessToken}`,
+        'Content-Type': 'application/json'
+      }
+    });
+
+    if (response.status === 201) {
+      const gistUrl = response.data.html_url;
+      res.json({ message: "Successfully uploaded to GitHub Gist", gistUrl: gistUrl });
+    } else {
+      console.error('Error uploading to GitHub Gist:', error);
+      res.status(500).json({ error: 'Failed to upload to GitHub Gist' });
+    }
+  } catch (error) {
+    console.error('Error uploading to GitHub Gist:', error);
+    res.status(500).json({ error: 'Error uploading to GitHub Gist' });
   }
-} catch (error) {
-  res.status(500).json({ error: 'Error uploading to GitHub Gist' });
-}
 });
